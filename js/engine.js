@@ -78,8 +78,8 @@ var Engine = (function(global) {
      * on the entities themselves within your app.js file).
      */
     function update(dt) {
-        // updateEntities(dt);
-        // checkCollisions();
+        //updateEntities(dt);
+        //checkCollisions();
     }
 
     /* This is called by the update function and loops through all of the
@@ -127,4 +127,59 @@ var Engine = (function(global) {
          */
         for (row = 0; row < numRows; row++) {
             for (col = 0; col < numCols; col++) {
-                /* The drawImage function of the canvas' context element
+              /* The drawImage function of the canvas' context element
+                     * requires 3 parameters: the image to draw, the x coordinate
+                     * to start drawing and the y coordinate to start drawing.
+                     * We're using our Resources helpers to refer to our images
+                     * so that we get the benefits of caching these images, since
+                     * we're using them over and over.
+                     */
+                    ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
+                }
+            }
+
+            // renderEntities();
+        }
+
+        /* This function is called by the render function and is called on each game
+         * tick. Its purpose is to then call the render functions you have defined
+         * on your enemy and player entities within app.js
+         */
+        function renderEntities() {
+            /* Loop through all of the objects within the allEnemies array and call
+             * the render function you have defined.
+             */
+            allEnemies.forEach(function(enemy) {
+                enemy.render();
+            });
+
+            player.render();
+        }
+
+        /* This function does nothing but it could have been a good place to
+         * handle game reset states - maybe a new game menu or a game over screen
+         * those sorts of things. It's only called once by the init() method.
+         */
+        function reset() {
+            // noop
+        }
+
+        /* Go ahead and load all of the images we know we're going to need to
+         * draw our game level. Then set init as the callback method, so that when
+         * all of these images are properly loaded our game will start.
+         */
+        Resources.load([
+            'images/stone-block.png',
+            'images/water-block.png',
+            'images/grass-block.png',
+            'images/enemy-bug.png',
+            'images/char-boy.png'
+        ]);
+        Resources.onReady(init);
+
+        /* Assign the canvas' context object to the global variable (the window
+         * object when run in a browser) so that developers can use it more easily
+         * from within their app.js files.
+         */
+        global.ctx = ctx;
+    })(this);

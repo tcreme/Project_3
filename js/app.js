@@ -1,5 +1,5 @@
 // Enemies our player must avoid
-var Enemy = function(x, y, s) {
+var Enemy = function Enemy (x, y, s) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
 
@@ -20,7 +20,7 @@ Enemy.prototype.update = function(dt) {
     this.x += this.speed * dt;
     if (this.x > 707) {
       var someSpeed = Math.floor(Math.random() * 4 + 1);
-      this.speed = (60 + (score > 0 ? score / 20 : score)) * someSpeed;
+      this.speed = (60 * someSpeed);
     }
     var enemyXleftMax = this.x - 70;
     var enemyXRightMax = this.x +70;
@@ -36,27 +36,49 @@ Enemy.prototype.update = function(dt) {
         player.resetPosition();
         is_game_over = true;
         updateView('you died. ' + lives + ' live(s) remaining...');
-      }
+
     }
-  };
+};
+
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-Enemy.prototype.handleInput = function(dt) {};
-
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
 
+const Player = function Player() {
+  this.sprite = 'images/char-cat-girl.png';
+  this.x = 303;
+  this.y = 404;
+  this.h_step = 101;
+  this.v_step = 83;
+};
+
+Player.prototype.resetPosition = function(){
+  this.x = 303;
+  this.y = 404;
+};
+
+Player.prototype.render = function() {
+  ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+Player.prototype.handleInput
 
 // Now instantiate your objects.
+var enemy1 = new Enemy(-80, 60 + 80 * 0, (Math.floor(Math.random() * 4 + 1) *60));
+var enemy2 = new Enemy(-80, 60 + 80 * 0, (Math.floor(Math.random() * 4 + 1) *60));
+var enemy3 = new Enemy(-80, 60 + 80 * 0, (Math.floor(Math.random() * 4 + 1) *60));
+
 // Place all enemy objects in an array called allEnemies
+const allEnemies = [enemy1, enemy2, enemy3];
+
 // Place the player object in a variable called player
-
-
+window.player = new Player();
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
