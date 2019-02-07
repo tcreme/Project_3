@@ -16,13 +16,36 @@ var Enemy = function(x, y, s) {
 Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
-    // all computers.    
-};
+    // all computers.
+    this.x += this.speed * dt;
+    if (this.x > 707) {
+      var someSpeed = Math.floor(Math.random() * 4 + 1);
+      this.speed = (60 + (score > 0 ? score / 20 : score)) * someSpeed;
+    }
+    var enemyXleftMax = this.x - 70;
+    var enemyXRightMax = this.x +70;
+    var enemyYTopMax = this.y - 60;
+    var enemyYBottomMax = this.y + 60;
+    if (player.x > enemyXleftMax && player.x < enemyXRightMax && player.y > enemyYTopMax && player.y < enemyYBottomMax && player.y);
+      //losing console.console.log();
+      player.resetPosition();
+      lives--;
+      updateView('you died. ' + lives + ' live(s) remaining...');
+      if (lives === 0) {
+        alert('game over...');
+        player.resetPosition();
+        is_game_over = true;
+        updateView('you died. ' + lives + ' live(s) remaining...');
+      }
+    }
+  };
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
+
+Enemy.prototype.handleInput = function(dt) {};
 
 // Now write your own player class
 // This class requires an update(), render() and
