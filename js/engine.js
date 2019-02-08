@@ -138,7 +138,7 @@ var Engine = (function(global) {
                 }
             }
 
-            // renderEntities();
+             renderEntities();
         }
 
         /* This function is called by the render function and is called on each game
@@ -173,7 +173,8 @@ var Engine = (function(global) {
             'images/water-block.png',
             'images/grass-block.png',
             'images/enemy-bug.png',
-            'images/char-boy.png'
+            'images/char-boy.png',
+            'images/char-cat-girl.png'
         ]);
         Resources.onReady(init);
 
