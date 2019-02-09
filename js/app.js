@@ -1,15 +1,17 @@
 // Enemies our player must avoid
-var Enemy = function Enemy (x, y, s) {
+var Enemy = function Enemy (x, y, speed) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
-    this.x = 0;
-    this.y = 0;
+    this.x = x;
+    this.y = y + 55; //center
+    this.speed = speed;
     this.sprite = 'images/enemy-bug.png';
     this.step = 101;
     this.boundry = this.step * 5;
+    this.resetPosition = this.step;
 };
 
 // Update the enemy's position, required method for game
@@ -20,14 +22,16 @@ Enemy.prototype.update = function(dt) {
     // all computers.
 
 // if enemy is not passed boundry
-    if (this.x < this.step * 5) {
+    if (this.x < this.boundry) {
       // Move forward
       //increment x by speed * dt
-      this.x += 200 * dt;
+      this.x += this.speed * dt;
     }
-    //else {
+    else {
       //reset pos to start
-    //};
+      this.x = this.resetPosition;
+    }
+};
 
 
     // this.x += this.speed * dt;
@@ -50,7 +54,7 @@ Enemy.prototype.update = function(dt) {
     //     is_game_over = true;
     //     updateView('you died. ' + lives + ' live(s) remaining...');
     // }
-};
+// };
 
 
 // Draw the enemy on the screen, required method for game
@@ -111,17 +115,19 @@ Player.prototype.handleInput = function(input) {
 }
 
 // Now instantiate your objects.
-var enemy1 = new Enemy(-80, 60 + 80 * 0, (Math.floor(Math.random() * 4 + 1) *60));
-var enemy2 = new Enemy(-80, 60 + 80 * 0, (Math.floor(Math.random() * 4 + 1) *60));
-var enemy3 = new Enemy(-80, 60 + 80 * 0, (Math.floor(Math.random() * 4 + 1) *60));
 var player = new Player();
+var enemy1 = new Enemy(-101, 0, 200);
+var enemy2 = new Enemy(-101, 83, 300);
+var enemy3 = new Enemy((-101*2.5), 83, 300);
 
 // Place all enemy objects in an array called allEnemies
-const allEnemies = [enemy1, enemy2, enemy3];
+const allEnemies = [];
+allEnemies.push(enemy1, enemy2, enemy3);
+console.log(allEnemies);
 
 // Place the player object in a variable called player
 window.player = new Player();
-window.enemy  = new Enemy();
+//window.enemy  = new Enemy();
 
 
 // This listens for key presses and sends the keys to your
