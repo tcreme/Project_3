@@ -1,5 +1,7 @@
+let numberOfLives = 3;
+
 // Enemies our player must avoid
-var Enemy = function Enemy (x, y, speed) {
+let Enemy = function Enemy (x, y, speed) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
 
@@ -42,7 +44,7 @@ Enemy.prototype.render = function() {
 
 
 // Now write your own player class
-var Player = function Player() {
+let Player = function Player() {
     this.sprite = 'images/char-cat-girl.png';
     this.step = 101;
     this.jump = 83;
@@ -62,6 +64,8 @@ Player.prototype.update = function() {
     // Did player x and y collide with enemy?
     if (this.y === enemy.y && (enemy.x + enemy.step/2 > this.x && enemy.x < this.x + this.step/2)) {
       this.reset();
+      numberOfLives--;
+      showLives();
     }
   }
   // Check winner here?
@@ -114,10 +118,10 @@ Player.prototype.handleInput = function(input) {
 }
 
 // Now instantiate your objects.
-var player = new Player();
-var enemy1 = new Enemy(-101, 0, 200);
-var enemy2 = new Enemy(-101, 83, 300);
-var enemy3 = new Enemy((-101*2.5), 166, 300);
+let player = new Player();
+let enemy1 = new Enemy(-101, 0, 200);
+let enemy2 = new Enemy(-101, 83, 300);
+let enemy3 = new Enemy((-101*2.5), 166, 300);
 
 // Place all enemy objects in an array called allEnemies
 const allEnemies = [];
@@ -126,13 +130,11 @@ console.log(allEnemies);
 
 // Place the player object in a variable called player
 window.player = new Player();
-//window.enemy  = new Enemy();
-
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
-    var allowedKeys = {
+    let allowedKeys = {
         37: 'left',
         38: 'up',
         39: 'right',
@@ -141,3 +143,19 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+function showLives(){
+  let charDOM = document.querySelector('.character');
+    if (numberOfLives == 3) {
+      charDOM.innerHTML = `<li><i class = "iconCharacter"></i><img src="images/char-cat-girl.png"></li>
+                          <li><i class = "iconCharacter"></i><img src="images/char-cat-girl.png"></li>
+                          <li><i class = "iconCharacter"></i><img src="images/char-cat-girl.png"></li>`;
+    } else if (numberOfLives == 2) {
+      charDOM.innerHTML = `<li><i class = "iconCharacter"></i><img src="images/char-cat-girl.png"></li>
+                          <li><i class = "iconCharacter"></i><img src="images/char-cat-girl.png"></li>`
+    } else if (numberOfLives == 1) {
+      charDOM.innerHTML = `<li><i class = "iconCharacter"></i><img src="images/char-cat-girl.png"></li>`
+    } else {
+        charDOM.innerHTML = ``;
+    }
+}

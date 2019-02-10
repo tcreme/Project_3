@@ -1,44 +1,77 @@
 body {
     text-align: center;
+
 }
+h1 {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+}
+/* winning modal */
 .modal {
-  display: none; /* Hidden*/
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-  cursor: pointer;
+    display: none; /* Hidden*/
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    cursor: pointer;
 }
-/* Modal Content/Box */
+/* Winning modal content */
 .modalContent {
-  background-color: rgb(255,255,255);
-  border-radius: 15px;
-  margin: 15% auto; /* 15% from the top and centered */
-  padding: 20px;
-  border: 2px solid rgb(0,128,128);
-  width: 50%; /* Could be more or less, depending on screen size */
-  text-align: center;
-
+    background-color: rgb(255,255,255);
+    border-radius: 15px;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 2px solid rgb(0,128,128);
+    width: 35%; /* Could be more or less, depending on screen size */
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    text-align: center;
 }
-/* Modal Content/Box */
+/* gameOver modal */
+.modalGameOver {
+    display: none; /* Hidden*/
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    cursor: pointer;
+}
+/* Modal gameOver content */
 .gameOverContent {
-  background-color: rgb(255,255,255);
-  border-radius: 15px;
-  margin: 15% auto; /* 15% from the top and centered */
-  padding: 20px;
-  border: 2px solid rgb(0,128,128);
-  width: 50%; /* Could be more or less, depending on screen size */
-  text-align: center;
+    background-color: rgb(255,255,255);
+    border-radius: 15px;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 2px solid rgb(0,128,128);
+    width: 35%; /* Could be more or less, depending on screen size */
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    text-align: center;
 }
-
-/* The Close Button */
-.close {
-  color: rgb(0,0,0);
-  float: right;
-  font-size: 30px;
-  font-weight: bold;
+/* Styles for numberOfLives */
+.showLives .character {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    margin: 0 5px 0 0;
+}
+.showLives .character li {
+    list-style: none;
+    display: inline-block;
+    padding: 0;
+}
+ /* Player icon */
+img {
+    height: 100px;
+    width: 50%;
+    padding-right: 1px;
+    margin: 0;
 }

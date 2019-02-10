@@ -13,62 +13,69 @@
  * writing app.js a little simpler to work with.
  */
 
-var Engine = (function(global) {
+let Engine = (function(global) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
      * set the canvas element's height/width and add it to the DOM.
      */
-    var doc = global.document,
+    let doc = global.document,
         win = global.window,
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
         lastTime,
         id;
 
-    var modalContentDOM = document.querySelector('.modalContent');
-    var modalDOM = document.querySelector('.modal');
-    var gameOverContentDOM = document.querySelector('.gameOverContent');
+    let modalContentDOM = document.querySelector('.modalContent');
+    let modalDOM = document.querySelector('.modal');
+    let modalGameOverDOM = document.querySelector('.modalGameOver');
+    let gameOverContentDOM = document.querySelector('.gameOverContent');
 
-// Winning function
-function congrats() {
+    // Winning function
+    function congrats() {
 
-// Get winning modal
-  modalContentDOM.innerHTML = `<p>Winner Winner Chicken Dinner!!!</p><button class = 'replay'> Replay </button>`;
+    // Get winning modal
+    modalContentDOM.innerHTML = `<p>Winner Winner Chicken Dinner!!!</p>
+                                 <button class = 'replay'> Replay </button>`;
 
-  const modal = document.querySelector('.modalContent');
-  const replay = document.querySelector('.replay');
+    const modal = document.querySelector('.modalContent');
+    const replay = document.querySelector('.replay');
 
-  replay.addEventListener('click', function() {
-    player.reset();
-    player.winner = false;
-    win.requestAnimationFrame(main);
-    modalDOM.style.display = "none";
-  });
+    // Resetting after winning
+    replay.addEventListener('click', function() {
+      player.reset();
+      player.winner = false;
+      win.requestAnimationFrame(main);
+      modalDOM.style.display = "none";
+      showLives();
+    });
+      modalDOM.style.display = "block";
+  }
 
-  modalDOM.style.display = "block";
-}
-// Game over function
-function gameOver() {
+    // Game over function
+    function gameOver() {
 
-// Get losing modal
-  gameOverContentDOM.innerHTML = `<p>Game Over</p><button class = 'replay'>Replay</button> `;
+    // Get losing modal
+    gameOverContentDOM.innerHTML = `<p>Game Over</p><button class = 'replayGameOver'> Replay </button> `;
 
-  const modal = document.querySelector('.gameOverContent');
-  const replay = document.querySelector('replay');
+    const modalGameOver = document.querySelector('.gameOverContent');
+    const replayGameOver = document.querySelector('.replayGameOver');
 
-// Reset Game; ask player if they would like to replay or close the game
-  replay.addEventListener('click', function() {
-    player.reset();
-    player.winner = false;
-    win.requestAnimationFrame(main);
-    modalDOM.style.display = "none";
-  });
-    modalDOM.style.display = "block";
-}
+    // Resetting after losing
+    replayGameOver.addEventListener('click', function() {
+      player.reset();
+      player.winner = false;
+      win.requestAnimationFrame(main);
+      modalGameOverDOM.style.display = "none";
+      showLives();
+    });
+      modalGameOverDOM.style.display = "block";
+  }
 
     canvas.width = 505;
     canvas.height = 606;
     doc.body.appendChild(canvas);
+
+    showLives();
 
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
@@ -81,7 +88,7 @@ function gameOver() {
          * computer is) - hurray time!
          */
 
-        var now = Date.now(),
+        let now = Date.now(),
             dt = (now - lastTime) / 1000.0;
 
         /* Call our update/render functions, pass along the time delta to
@@ -99,14 +106,17 @@ function gameOver() {
          * function again as soon as the browser is able to draw another frame.
          */
 
-
         if (player.winner === true) {
           win.cancelAnimationFrame(id);
           congrats();
+          numberOfLives = 3;
+        }
+        else if (numberOfLives <= 0) {
+          gameOver();
+          numberOfLives = 3;
         }
         else {
         id = win.requestAnimationFrame(main);
-
       }
     }
 
@@ -129,6 +139,7 @@ function gameOver() {
      * functionality this way (you could just implement collision detection
      * on the entities themselves within your app.js file).
      */
+
     function update(dt) {
         updateEntities(dt);
         //checkCollisions();
@@ -141,6 +152,7 @@ function gameOver() {
      * the data/properties related to the object. Do your drawing in your
      * render methods.
      */
+
     function updateEntities(dt) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
@@ -158,7 +170,7 @@ function gameOver() {
         /* This array holds the relative URL to the image used
          * for that particular row of the game level.
          */
-        var rowImages = [
+        let rowImages = [
                 'images/water-block.png',   // Top row is water
                 'images/stone-block.png',   // Row 1 of 3 of stone
                 'images/stone-block.png',   // Row 2 of 3 of stone
@@ -177,6 +189,7 @@ function gameOver() {
          * and, using the rowImages array, draw the correct image for that
          * portion of the "grid"
          */
+
         for (row = 0; row < numRows; row++) {
             for (col = 0; col < numCols; col++) {
               /* The drawImage function of the canvas' context element
