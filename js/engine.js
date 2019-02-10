@@ -22,7 +22,49 @@ var Engine = (function(global) {
         win = global.window,
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
-        lastTime;
+        lastTime,
+        id;
+
+    var modalContentDOM = document.querySelector('.modalContent');
+    var modalDOM = document.querySelector('.modal');
+    var gameOverContentDOM = document.querySelector('.gameOverContent');
+
+// Winning function
+function congrats() {
+
+// Get winning modal
+  modalContentDOM.innerHTML = `<p>Winner Winner Chicken Dinner!!!</p><button class = 'replay'> Replay </button>`;
+
+  const modal = document.querySelector('.modalContent');
+  const replay = document.querySelector('.replay');
+
+  replay.addEventListener('click', function() {
+    player.reset();
+    player.winner = false;
+    win.requestAnimationFrame(main);
+    modalDOM.style.display = "none";
+  });
+
+  modalDOM.style.display = "block";
+}
+// Game over function
+function gameOver() {
+
+// Get losing modal
+  gameOverContentDOM.innerHTML = `<p>Game Over</p><button class = 'replay'>Replay</button> `;
+
+  const modal = document.querySelector('.gameOverContent');
+  const replay = document.querySelector('replay');
+
+// Reset Game; ask player if they would like to replay or close the game
+  replay.addEventListener('click', function() {
+    player.reset();
+    player.winner = false;
+    win.requestAnimationFrame(main);
+    modalDOM.style.display = "none";
+  });
+    modalDOM.style.display = "block";
+}
 
     canvas.width = 505;
     canvas.height = 606;
@@ -38,6 +80,7 @@ var Engine = (function(global) {
          * would be the same for everyone (regardless of how fast their
          * computer is) - hurray time!
          */
+
         var now = Date.now(),
             dt = (now - lastTime) / 1000.0;
 
@@ -55,7 +98,16 @@ var Engine = (function(global) {
         /* Use the browser's requestAnimationFrame function to call this
          * function again as soon as the browser is able to draw another frame.
          */
-        win.requestAnimationFrame(main);
+
+
+        if (player.winner === true) {
+          win.cancelAnimationFrame(id);
+          congrats();
+        }
+        else {
+        id = win.requestAnimationFrame(main);
+
+      }
     }
 
     /* This function does some initial setup that should only occur once,
@@ -93,7 +145,7 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
-        //player.update();
+        player.update();
     }
 
     /* This function initially draws the "game level", it will then call
@@ -183,4 +235,4 @@ var Engine = (function(global) {
          * from within their app.js files.
          */
         global.ctx = ctx;
-    })(this);
+    }(this));

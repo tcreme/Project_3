@@ -11,7 +11,7 @@ var Enemy = function Enemy (x, y, speed) {
     this.sprite = 'images/enemy-bug.png';
     this.step = 101;
     this.boundry = this.step * 5;
-    this.resetPosition = this.step;
+    this.resetPosition = this.step - 200;
 };
 
 // Update the enemy's position, required method for game
@@ -30,31 +30,9 @@ Enemy.prototype.update = function(dt) {
     else {
       //reset pos to start
       this.x = this.resetPosition;
+      this.speed = (1 + Math.random()) * 180;
     }
 };
-
-
-    // this.x += this.speed * dt;
-    // if (this.x > 707) {
-    //   var someSpeed = Math.floor(Math.random() * 4 + 1);
-    //   this.speed = (60 * someSpeed);
-    // }
-    // var enemyXleftMax = this.x - 70;
-    // var enemyXRightMax = this.x +70;
-    // var enemyYTopMax = this.y - 60;
-    // var enemyYBottomMax = this.y + 60;
-    // if (player.x > enemyXleftMax && player.x < enemyXRightMax && player.y > enemyYTopMax && player.y < enemyYBottomMax && player.y);
-    //   //losing console.console.log();
-    //   player.resetPosition();
-    //   lives--;
-    //   updateView('you died. ' + lives + ' live(s) remaining...');
-    //   if (lives === 0) {
-    //     alert('game over...');
-    //     player.resetPosition();
-    //     is_game_over = true;
-    //     updateView('you died. ' + lives + ' live(s) remaining...');
-    // }
-// };
 
 
 // Draw the enemy on the screen, required method for game
@@ -62,29 +40,50 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+
 // Now write your own player class
 var Player = function Player() {
     this.sprite = 'images/char-cat-girl.png';
     this.step = 101;
     this.jump = 83;
     this.startX = this.step * 2;
-    this.startY = (this.jump * 5) - 20;
+    this.startY = (this.jump * 4) + 55;
     this.x = this.startX;
     this.y = this.startY;
-
-// This class requires an update(), render() and
+    this.winner = false;
 
 };
+
+
+// This class requires an update(), render() and
+Player.prototype.update = function() {
+  //check for collisions
+  for(let enemy of allEnemies) {
+    // Did player x and y collide with enemy?
+    if (this.y === enemy.y && (enemy.x + enemy.step/2 > this.x && enemy.x < this.x + this.step/2)) {
+      this.reset();
+    }
+  }
+  // Check winner here?
+    // Was the final tile reached?
+    if(this.y === 55) {
+      this.winner = true;
+    }
+};
+
 
 // draws player sprite on current x and y coords
 Player.prototype.render = function() {
   ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
-// Player.prototype.resetPosition = function(){
-//   this.x = 303;
-//   this.y = 404;
-//};
+
+// Reset player
+Player.prototype.reset = function(){
+  // Set x and y to their starting points
+    this.y = this.startY;
+    this.x = this.startX;
+}
 
 
 // a handleInput() method.
@@ -118,7 +117,7 @@ Player.prototype.handleInput = function(input) {
 var player = new Player();
 var enemy1 = new Enemy(-101, 0, 200);
 var enemy2 = new Enemy(-101, 83, 300);
-var enemy3 = new Enemy((-101*2.5), 83, 300);
+var enemy3 = new Enemy((-101*2.5), 166, 300);
 
 // Place all enemy objects in an array called allEnemies
 const allEnemies = [];
