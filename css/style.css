@@ -1,6 +1,5 @@
 body {
     text-align: center;
-
 }
 h1 {
     font-family: 'Open Sans', sans-serif;
@@ -72,6 +71,7 @@ h1 {
 img {
     height: 100px;
     width: 50%;
-    padding-right: 1px;
+    padding-right: 0.01em;
+    padding-left:  0.01em;
     margin: 0;
 }
